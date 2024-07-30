@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ../project:/var/www
+      - ./nginx:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    container_name: nginx
+
+  app:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    volumes:
+      - ../project:/var/www
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+    container_name: app
+
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql
+    env_file: ".env"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    container_name: postgres
