@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +26,10 @@ Route::prefix('auth')->group(function (){
     Route::middleware(['auth:sanctum', 'token.access'])->get('user', function (){
         return response(['user' => auth()->user()], 200);
     });
+});
+
+Route::prefix('catalog')->group(function (){
+    Route::get('category', [CategoryController::class, 'index']);
+    Route::get('product', [ProductController::class, 'index']);
+    Route::get('product/{product}', [ProductController::class, 'get']);
 });
