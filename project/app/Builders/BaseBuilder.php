@@ -2,121 +2,223 @@
 
 namespace App\Builders;
 
+use App\DTO\Base\FilterDTO;
+use App\DTO\Base\PaginationDTO;
+use App\DTO\Base\RelationDTO;
+use App\DTO\Base\SearchDTO;
+use App\DTO\Base\SortDTO;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class BaseBuilder extends Builder
 {
-    public function get($data = [], $columns = ['*'])
+    /**
+     * @param array<FilterDTO>|null $filters
+     * @param SearchDTO|null $search
+     * @param SortDTO|null $sort
+     * @param PaginationDTO|null $pagination
+     * @return Collection|LengthAwarePaginator|array|Builder[]
+     */
+    public function getAdvanced(
+        array $filters = null, SearchDTO $search = null, SortDTO $sort = null, PaginationDTO $pagination = null
+    ): Collection|LengthAwarePaginator|array
     {
-        $this->filter($data['filters'] ?? null);
-        $this->search($data['search'] ?? null);
-        $this->sort($data['sort'] ?? null);
-        if (isset($data['pagination'])) {
-            return $this->paginate($data['pagination']['per_page'] ?? 10, ['*'], 'page', $data['pagination']['current_page'] ?? null);
+        $this->filter($filters);
+        $this->search($search);
+        $this->sort($sort);
+        if ($pagination) {
+            return $this->paginate($pagination->per_page, ['*'], 'page', $pagination->current_page);
         }
-        return parent::get($columns);
+        return $this->get();
     }
 
-    private function filter($filters = null): void
+    /**
+     * @param array<FilterDTO>|null $filters
+     * @return BaseBuilder
+     */
+    public function filter(array|null $filters): BaseBuilder
     {
         if (!$filters) {
-            return;
+            return $this;
         }
-        $model = $this->getModel();
         foreach ($filters as $filter) {
             try {
-                preg_match('/(.+)\.(.+)/', $filter['field'], $matches);
-                $relation_filter = isset($matches[0]) ? (object)['relation' => $matches[1], 'field' => $matches[2]] : null;
+                //check there is a filter for relation (relation_name.relation_field)
+                preg_match('/(.+)\.(.+)/', $filter->field, $matches);
 
-                if (count($filter['values']) > 1) {
-                    if ($relation_filter) {
-                        $relation = $model->getRelationList()[$relation_filter->relation] ?? null;
-                        if ($relation) {
-                            $relation_class = new $relation->class;
-                            if (in_array($relation_filter->field, $relation_class->getFieldList())) {
-                                $field = $relation->type == 'belongsToMany' ? $relation_filter->relation . '.' . $relation_filter->field : $relation_filter->field;
-                                $this->whereHas($relation_filter->relation, function ($query) use ($filter, $field) {
-                                    $query->whereIn($field, $filter['values']);
-                                });
-                            }
-                        }
-                    } else {
-                        if (in_array($filter['field'], $model->getFieldList())) {
-                            $this->whereIn($filter['field'], $filter['values']);
-                        }
-                    }
-                } else {
-                    if ($relation_filter) {
-                        $relation = $model->getRelationList()[$relation_filter->relation] ?? null;
-                        if ($relation) {
-                            $relation_class = new $relation->class;
-                            if (in_array($relation_filter->field, $relation_class->getFieldList())) {
-                                $field = $relation->type == 'belongsToMany' ? $relation_filter->relation . '.' . $relation_filter->field : $relation_filter->field;
-                                $this->whereHas($relation_filter->relation, function ($query) use ($filter, $field) {
-                                    $query->where($field, $filter['operator'], $filter['values'][0]);
-                                });
-                            }
-                        }
-                    } else {
-                        if (in_array($filter['field'], $model->getFieldList())) {
-                            $this->where($filter['field'], $filter['operator'], $filter['values'][0]);
-                        }
-                    }
+                if (count($filter->values) > 1) {
+                    $this->multipleFilter($filter);
+                    continue;
                 }
-            } catch (\Exception) {
+
+                if (isset($matches[0])) {
+                    $this->filterForRelation(
+                        $matches[2],
+                        $filter->values[0],
+                        $filter->operator,
+                        GetModelRelations($this->getModel())[$relation_filter->relation] ?? null
+                    );
+                    continue;
+                }
+
+                if (in_array($filter->field, GetModelFields($this->getModel()))) {
+                    $this->where($filter->field, $filter->operator, $filter->values[0]);
+                }
+
+            } catch (Exception $e) {
+                Log::error($e->getMessage(), ['exception' => $e]);
                 continue;
             }
         }
-
+        return $this;
     }
 
-    private function search($search = null): void
+    /**
+     * @param SearchDTO|null $search
+     * @return BaseBuilder
+     */
+    public function search(SearchDTO|null $search): BaseBuilder
     {
         if (!$search) {
-            return;
+            return $this;
         }
         $model = $this->getModel();
         try {
             $this->where(function ($query) use ($search, $model) {
-                foreach ($search['fields'] as $field) {
+                foreach ($search->fields as $field) {
+                    //check there is a search for relation (relation_name.relation_field)
                     preg_match('/(.+)\.(.+)/', $field, $matches);
-                    $relation_search = isset($matches[0]) ? (object)['relation' => $matches[1], 'field' => $matches[2]] : null;
-                    if ($relation_search) {
-                        $relation = $model->getRelationList()[$relation_search->relation] ?? null;
-                        if ($relation) {
-                            $relation_class = new $relation->class;
-                            if (in_array($relation_search->field, $relation_class->getFieldList())) {
-                                $field = $relation->type == 'belongsToMany' ? $relation_search->relation . '.' . $relation_search->field : $relation_search->field;
-                                $query->orWhereHas($relation_search->relation, function ($query) use ($search, $field) {
-                                    $query->where($field, 'ilike', '%' . $search['value'] . '%');
-                                });
-                            }
-                        }
-                    } else {
-                        if (in_array($field, $model->getFieldList())) {
-                            $query->orWhere($field, 'ilike', '%' . $search['value'] . '%');
-                        }
+
+                    if (isset($matches[0])) {
+                        $this->searchForRelation(
+                            $query,
+                            $matches[2],
+                            $search->value,
+                            GetModelRelations($model)[$matches[1]] ?? null
+                        );
+                        continue;
+                    }
+
+                    if (in_array($field, GetModelFields($model), true)) {
+                        $query->orWhere($field, 'ilike', '%' . $search->value . '%');
                     }
                 }
             });
-        } catch (\Exception) {
+        } catch (Exception $e) {
+            Log::error($e->getMessage(), ['exception' => $e]);
+            return $this;
+        }
+        return $this;
+    }
+
+
+    /**
+     * @param SortDTO|null $sort
+     * @return BaseBuilder
+     */
+    public function sort(SortDTO|null $sort): BaseBuilder
+    {
+        if (!$sort) {
+            return $this;
+        }
+
+        try {
+            if (in_array($sort->field, GetModelFields($this->getModel()), true)) {
+                $this->orderBy($sort->field, $sort->order_by);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage(), ['exception' => $e]);
+            return $this;
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param FilterDTO $filter
+     * @return void
+     */
+    private function multipleFilter(FilterDTO $filter): void
+    {
+        preg_match('/(.+)\.(.+)/', $filter->field, $matches);
+        if (isset($matches[0])) {
+            $this->multipleFilterForRelation(
+                $matches[2],
+                $filter->values,
+                GetModelRelations($this->getModel())[$matches[1]] ?? null
+            );
             return;
+        }
+        if (in_array($filter->field, GetModelFields($this->getModel()))) {
+            $this->whereIn($filter->field, $filter->values);
         }
     }
 
-    private function sort($sort = null): void
+    /**
+     * @param string $field
+     * @param array $values
+     * @param RelationDTO|null $relation
+     * @return void
+     */
+    private function multipleFilterForRelation(string $field, array $values, RelationDTO|null $relation): void
     {
-        if (!$sort) {
+        if (!$relation) {
             return;
         }
-        $model = $this->getModel();
-        try {
-            if (in_array($sort['field'], $model->getFieldList())) {
-                $this->orderBy($sort['field'], $sort['order_by']);
-            }
-        } catch (\Exception) {
-            return;
+        $relation_model = new $relation->model;
+        if (in_array($field, GetModelFields($relation_model), true)) {
+            $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
+            $this->whereHas($relation->name, function ($query) use ($field, $values) {
+                $query->whereIn($field, $values);
+            });
         }
     }
+
+    /**
+     * @param string $field
+     * @param array $value
+     * @param string $operator
+     * @param RelationDTO|null $relation
+     * @return void
+     */
+    private function filterForRelation(string $field, array $value, string $operator, RelationDTO|null $relation): void
+    {
+        if (!$relation) {
+            return;
+        }
+        $relation_model = new $relation->model;
+        if (in_array($field, GetModelFields($relation_model), true)) {
+            $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
+            $this->whereHas($relation->name, function ($query) use ($field, $value, $operator) {
+                $query->where($field, $operator, $value);
+            });
+        }
+
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $field
+     * @param string $value
+     * @param RelationDTO|null $relation
+     * @return void
+     */
+    private function searchForRelation(Builder $query, string $field, string $value, RelationDTO|null $relation): void
+    {
+        if (!$relation) {
+            return;
+        }
+        $relation_model = new $relation->model;
+        if (in_array($field, GetModelFields($relation_model), true)) {
+            $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
+            $query->orWhereHas($relation->name, function ($query) use ($field, $value) {
+                $query->where($field, 'ilike', '%' . $value . '%');
+            });
+        }
+    }
+
 }
