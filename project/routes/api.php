@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +17,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('auth')->group(function (){
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum', 'token.refresh']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum', 'token.access']);
+    //ToDo убрать (тестовый роут)
+    Route::middleware(['auth:sanctum', 'token.access'])->get('user', function (){
+        return response(['user' => auth()->user()], 200);
+    });
+});
+
+Route::prefix('catalog')->group(function (){
+    Route::get('category', [CategoryController::class, 'index']);
+    Route::get('product', [ProductController::class, 'index']);
+    Route::get('product/{product}', [ProductController::class, 'get']);
 });

@@ -1,0 +1,1197 @@
+{
+	"info": {
+		"_postman_id": "0a457c83-65a2-442e-a7d6-fbc0a3e2259a",
+		"name": "Pizzeria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22857674"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Имя\",\r\n    \"email\": \"email@gmail.com\",\r\n    \"phone\": \"+7(362)267-88-22\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Имя\",\r\n    \"email\": \"email@gmail.com\",\r\n    \"phone\": \"+7(362)267-88-22\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/api/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 21:46:32 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"1|VJ5Rev6GQ9fHmXP1uv0Y6eJUA9bokTCwYJJw1Jsk3e6ba8e6\",\n    \"refresh_token\": \"2|48HlHUd53BDADQJoZ6N8NZ9DwJQ7daOlbx4b2NBXcb411ba7\"\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"email@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/api/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:16:14 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"3|NxXUsIV4bmRYTYSrn1RHXkJdvKEtiATT5km8EBGg32b8a064\",\n    \"refresh_token\": \"4|NGN1Gv40vFW4hbYTbvZN1IyvPnl8LdoEVYO6OEfef9d855ba\"\n}"
+						},
+						{
+							"name": "invalid email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"email@gmail.comm\",\r\n    \"password\": \"password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/api/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:16:56 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The selected email is invalid.\",\n    \"errors\": {\n        \"email\": [\n            \"The selected email is invalid.\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "invalid password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"email@gmail.com\",\r\n    \"password\": \"passwordd\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost/api/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Content",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:18:03 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Invalid password\"\n}"
+						}
+					]
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "8|MBpNayXCwGy6asHFJzS4zYfdYSbANNfniZCw83kY42ae832d",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/auth/refresh",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:25:03 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"9|pUIhzMKiGf4i3OChXEbnUFPtFyEtLMbpEAfxqt2nfc3b668e\",\n    \"refresh_token\": \"10|ttjP3H541JBVdD0DjAsw9yjxl01lZB1ZuHECoejGa9f50759\"\n}"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|mRoOWMqubmv9bkruKq7RSVm5bGuHOaaW1NnJz4bUd7dc0489",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/auth/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:20:38 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "get auth user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "7|fwHPBQgTkIcJ4LkMIi4uBMqRfO14XlbYr50d8zEBf180d3c2",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/auth/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:13:09 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"id\": 5,\n        \"name\": \"Имя\",\n        \"email\": \"email@gmail.com\",\n        \"email_verified_at\": null,\n        \"phone\": \"+7(362)267-88-22\",\n        \"is_admin\": false,\n        \"created_at\": \"2024-07-30T21:46:32.000000Z\",\n        \"updated_at\": \"2024-07-30T21:46:32.000000Z\"\n    }\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/auth/user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"auth",
+										"user"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Jul 2024 22:14:18 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Unauthenticated.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "catalog",
+			"item": [
+				{
+					"name": "get product by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/catalog/product/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"catalog",
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/catalog/product/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"catalog",
+										"product",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Aug 2024 20:59:16 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"product\": {\n        \"id\": 1,\n        \"name\": \"Ut quia voluptatibus numquam alias.\",\n        \"description\": \"Odio illo natus suscipit aut est tenetur. Omnis distinctio expedita pariatur corrupti ad accusantium sit veritatis. Corrupti quaerat quia inventore.\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Pizza\",\n            \"description\": null,\n            \"limit\": 10,\n            \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n        },\n        \"images\": [\n            {\n                \"path\": \"https://via.placeholder.com/640x480.png/0022ee?text=eos\",\n                \"is_main\": false\n            },\n            {\n                \"path\": \"https://via.placeholder.com/640x480.png/0000dd?text=neque\",\n                \"is_main\": false\n            },\n            {\n                \"path\": \"https://via.placeholder.com/640x480.png/0011aa?text=repellat\",\n                \"is_main\": false\n            }\n        ],\n        \"in_stock\": true,\n        \"info\": [\n            {\n                \"name\": \"Illum pariatur aut rem.\",\n                \"value\": \"Ut aperiam sequi aspernatur. Consequuntur nostrum dolor quos et ea. Delectus dolor error qui voluptatem.\"\n            },\n            {\n                \"name\": \"Laudantium voluptatem pariatur.\",\n                \"value\": \"Aliquam est exercitationem eligendi ipsam consectetur. Quia molestiae sint suscipit sed. Explicabo voluptas voluptatem beatae tempore voluptatibus adipisci.\"\n            },\n            {\n                \"name\": \"Quia numquam unde.\",\n                \"value\": \"Iure dicta rerum aliquid ullam esse iusto dolores molestias. Distinctio et eum non nesciunt aut expedita labore. Illum placeat ea neque. Rem et nihil qui quia qui.\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/catalog/product?page=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"catalog",
+								"product"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/catalog/product?page=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"catalog",
+										"product"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Aug 2024 21:01:05 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"products\": [\n        {\n            \"id\": 1,\n            \"name\": \"Ut quia voluptatibus numquam alias.\",\n            \"description\": \"Odio illo natus suscipit aut est tenetur. Omnis distinctio expedita pariatur corrupti ad accusantium sit veritatis. Corrupti quaerat quia inventore.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0022ee?text=eos\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0000dd?text=neque\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0011aa?text=repellat\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Vitae cum.\",\n            \"description\": \"Error excepturi quia ratione. Voluptatem ab ut distinctio. Reprehenderit adipisci labore eos modi.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/004411?text=reprehenderit\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00cc55?text=voluptate\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0044ff?text=similique\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Voluptatem autem ea recusandae.\",\n            \"description\": \"Voluptatum provident delectus perferendis dolore aut iusto magnam. Id reiciendis voluptas et praesentium est. Ut ipsum delectus hic voluptatibus.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00bbff?text=atque\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0055ee?text=incidunt\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/004477?text=voluptatem\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Rerum repellat labore dolorum ut.\",\n            \"description\": \"Odio itaque voluptatem voluptatem esse. Qui aut et iure dolores recusandae velit ipsa. Quam iure sint enim et fugiat. Aliquam hic fugiat inventore illum aut.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00bbaa?text=exercitationem\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0066dd?text=enim\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/001111?text=autem\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Praesentium aliquam nisi.\",\n            \"description\": \"Est delectus labore placeat est. Quas aliquid sint aliquam et et ut. Fugit sed necessitatibus vel sit natus dolorem a.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/007777?text=id\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/008866?text=iusto\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0022cc?text=ipsum\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": false\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Neque alias vero assumenda.\",\n            \"description\": \"Necessitatibus maxime inventore et officiis nam minus quas. Ducimus nulla suscipit facere facilis eveniet adipisci. Odit eveniet nesciunt aut incidunt vel.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0055ee?text=neque\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0099ee?text=ex\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00aa22?text=quis\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Officia.\",\n            \"description\": \"Et est minus et tempore voluptates. Aut nostrum illum a minima. Recusandae dolor qui quidem libero.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0055dd?text=tempore\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0000aa?text=ut\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00aa55?text=odit\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": false\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Rerum repellendus soluta.\",\n            \"description\": \"Doloribus officia eum molestiae at perferendis ex ut saepe. Reprehenderit porro porro amet consectetur est esse quidem. Ut molestiae rerum nihil doloremque in et similique enim.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00ddbb?text=cumque\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00ff00?text=vitae\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00ee00?text=ipsam\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": false\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Aliquam esse.\",\n            \"description\": \"Sed dolorum est enim rerum rem qui. Sunt soluta non iusto non consequatur qui ut. Omnis et nam debitis sint et eum. Sit et saepe deleniti iusto accusamus quo.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0022bb?text=atque\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00ee88?text=cupiditate\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/008800?text=sunt\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Culpa molestias.\",\n            \"description\": \"Iusto quia est aperiam illum voluptatum veniam eveniet. Sed sed quod non. Eveniet ab aut nihil quasi illum.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Pizza\",\n                \"description\": null,\n                \"limit\": 10,\n                \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n            },\n            \"images\": [\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/0077dd?text=temporibus\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/00ff11?text=totam\",\n                    \"is_main\": false\n                },\n                {\n                    \"path\": \"https://via.placeholder.com/640x480.png/007711?text=quidem\",\n                    \"is_main\": false\n                }\n            ],\n            \"in_stock\": true\n        }\n    ],\n    \"count\": 10,\n    \"pagination\": {\n        \"current_page\": 1,\n        \"total_page\": 4,\n        \"per_page\": 10\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/api/catalog/product?page=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"catalog",
+								"product"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost/api/catalog/category",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"api",
+										"catalog",
+										"category"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.25.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.2.21"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Aug 2024 21:08:07 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"categories\": [\n        {\n            \"id\": 1,\n            \"name\": \"Pizza\",\n            \"description\": null,\n            \"limit\": 10,\n            \"image\": \"https://via.placeholder.com/640x480.png/00cc55?text=quia\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Drink\",\n            \"description\": null,\n            \"limit\": 20,\n            \"image\": null\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
