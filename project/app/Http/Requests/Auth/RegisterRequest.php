@@ -22,4 +22,14 @@ class RegisterRequest extends FormRequest
             'phone.regex' => "The phone format must be +7(xxx)xxx-xx-xx.",
         ];
     }
+
+    /**
+     * @param $key
+     * @param $default
+     * @return array{name:string, email: string, phone:string, password: string}
+     */
+    public function validated($key = null, $default = null): array
+    {
+        return parent::validated();
+    }
 }

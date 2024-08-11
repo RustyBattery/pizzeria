@@ -2,6 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Auth\CreateTokenException;
+use App\Exceptions\Auth\InvalidEmailException;
+use App\Exceptions\Auth\InvalidPasswordException;
+use App\Exceptions\Auth\RegisterException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use ReflectionClass;
@@ -63,6 +67,34 @@ class Handler extends ExceptionHandler
                     return response()->json(['message' => $modelClass->getShortName() . ' not found'], ResponseAlias::HTTP_NOT_FOUND);
                 }
                 return response()->json(['message' => 'Not found'], ResponseAlias::HTTP_NOT_FOUND);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (InvalidPasswordException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Invalid password'], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (InvalidEmailException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Invalid email'], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (CreateTokenException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'An error occurred when issuing tokens'], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (RegisterException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'An error occurred while trying to register'], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
             }
             return parent::render($request, $e);
         });

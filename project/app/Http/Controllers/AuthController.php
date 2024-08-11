@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Auth\CreateTokenException;
+use App\Exceptions\Auth\InvalidEmailException;
+use App\Exceptions\Auth\InvalidPasswordException;
+use App\Exceptions\Auth\RegisterException;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\AuthService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -16,44 +21,45 @@ class AuthController extends Controller
         $this->authService = new AuthService();
     }
 
-    public function register(RegisterRequest $request)
+    /**
+     * @param RegisterRequest $request
+     * @return JsonResponse
+     * @throws CreateTokenException|RegisterException
+     */
+    public function register(RegisterRequest $request): JsonResponse
     {
-        try {
-            $response = $this->authService->register($request->validated());
-        } catch (\Exception $e) {
-            return response(['message' => $e->getMessage()], $e->getCode() >= 200 && $e->getCode() <= 500 ? $e->getCode() : 400);
-        }
-        return response($response, 200);
+        $data = $request->validated();
+        return response()->json($this->authService->register($data));
     }
 
-    public function login(LoginRequest $request)
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     * @throws InvalidPasswordException|InvalidEmailException|CreateTokenException
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
-        try {
-            $data = $request->validated();
-            $response = $this->authService->login($data['email'], $data['password']);
-        } catch (\Exception $e) {
-            return response(['message' => $e->getMessage()], $e->getCode() >= 200 && $e->getCode() <= 500 ? $e->getCode() : 400);
-        }
-        return response($response, 200);
+        $data = $request->validated();
+        return response()->json($this->authService->login($data['email'], $data['password']));
     }
 
-    public function logout(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
     {
-        try {
-            $this->authService->logout($request->user());
-        } catch (\Exception $e) {
-            return response(['message' => $e->getMessage()], $e->getCode() >= 200 && $e->getCode() <= 500 ? $e->getCode() : 400);
-        }
-        return response(['success' => true], 200);
+        $this->authService->logout($request->user());
+        return response()->json(['success' => true]);
     }
 
-    public function refresh(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws CreateTokenException
+     */
+    public function refresh(Request $request): JsonResponse
     {
-        try {
-            $response = $this->authService->refresh($request->user());
-        } catch (\Exception $e) {
-            return response(['message' => $e->getMessage()], $e->getCode() >= 200 && $e->getCode() <= 500 ? $e->getCode() : 400);
-        }
-        return response($response, 200);
+        return response()->json($this->authService->refresh($request->user()));
     }
 }
