@@ -6,25 +6,27 @@ use App\Http\Requests\BaseRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    public function index(BaseRequest $request)
+    /**
+     * @param BaseRequest $request
+     * @return JsonResponse
+     */
+    public function index(BaseRequest $request): JsonResponse
     {
-        try {
-            return response(new ProductCollection(Product::get($request->validated())), 200);
-        } catch (\Exception $e) {
-            return response(['message' => $e->getMessage()], $e->getCode() >= 200 && $e->getCode() <= 500 ? $e->getCode() : 400);
-        }
+        $data = $request->validated();
+        $products = Product::query()->getAdvanced($data['filters'], $data['search'], $data['sort'], $data['pagination']);
+        return response()->json(new ProductCollection($products));
     }
 
-    public function get(Product $product)
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function get(Product $product): JsonResponse
     {
-        try {
-            return response(['product' => ProductResource::make($product)], 200);
-        } catch (\Exception $e) {
-            return response(['message' => $e->getMessage()], $e->getCode() >= 200 && $e->getCode() <= 500 ? $e->getCode() : 400);
-        }
+        return response()->json(['product' => ProductResource::make($product)]);
     }
 }
