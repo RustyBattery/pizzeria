@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('price');
             $table->boolean('in_stock')->default(true);
             $table->bigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories')->nullOnDelete();
