@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +32,10 @@ Route::prefix('catalog')->group(function (){
     Route::get('category', [CategoryController::class, 'index']);
     Route::get('product', [ProductController::class, 'index']);
     Route::get('product/{product}', [ProductController::class, 'get']);
+});
+
+Route::prefix('cart')->middleware(['auth:sanctum', 'token.access'])->group(function (){
+    Route::get('/', [CartController::class, 'index']);
+    //ToDo add product to cart
+    //ToDo remove product to cart
 });
