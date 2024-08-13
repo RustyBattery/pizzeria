@@ -17,25 +17,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('auth')->group(function (){
+Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('refresh', [AuthController::class, 'refresh'])->middleware(['auth:sanctum', 'token.refresh']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum', 'token.access']);
-    //ToDo убрать (тестовый роут)
-    Route::middleware(['auth:sanctum', 'token.access'])->get('user', function (){
-        return response(['user' => auth()->user()], 200);
-    });
 });
 
-Route::prefix('catalog')->group(function (){
+Route::prefix('catalog')->group(function () {
     Route::get('category', [CategoryController::class, 'index']);
     Route::get('product', [ProductController::class, 'index']);
     Route::get('product/{product}', [ProductController::class, 'get']);
 });
 
-Route::prefix('cart')->middleware(['auth:sanctum', 'token.access'])->group(function (){
+Route::prefix('cart')->middleware(['auth:sanctum', 'token.access'])->group(function () {
     Route::get('/', [CartController::class, 'index']);
-    //ToDo add product to cart
-    //ToDo remove product to cart
+    Route::prefix('product/{product}')->group(function () {
+        Route::post('/', [CartController::class, 'addProduct']);
+        Route::delete('/', [CartController::class, 'removeProduct']);
+        Route::put('/', [CartController::class, 'changeCount']);
+    });
 });
