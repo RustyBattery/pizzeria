@@ -6,6 +6,9 @@ use App\Exceptions\Auth\CreateTokenException;
 use App\Exceptions\Auth\InvalidEmailException;
 use App\Exceptions\Auth\InvalidPasswordException;
 use App\Exceptions\Auth\RegisterException;
+use App\Exceptions\Cart\CartProductLimitException;
+use App\Exceptions\Cart\CartProductOutStockException;
+use App\Exceptions\Cart\DuplicateCartProductException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use ReflectionClass;
@@ -95,6 +98,27 @@ class Handler extends ExceptionHandler
         $this->renderable(function (RegisterException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json(['message' => 'An error occurred while trying to register'], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (DuplicateCartProductException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'The product is already in the shopping cart'], ResponseAlias::HTTP_BAD_REQUEST);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (CartProductOutStockException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'The product is currently out of stock'], ResponseAlias::HTTP_BAD_REQUEST);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (CartProductLimitException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'The limit on the number of products in the cart of this category has been reached'], ResponseAlias::HTTP_BAD_REQUEST);
             }
             return parent::render($request, $e);
         });
