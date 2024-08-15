@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $user_id
- * @property int $product
+ * @property int $product_id
  * @property int $count
+ * @property Product $product
+ * @property User $user
+ * @property int $id
  */
 class CartItem extends Model
 {
@@ -29,5 +32,10 @@ class CartItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getCost(): int|string
+    {
+        return $this->product->in_stock ? bcdiv(($this->product->price * $this->count) / 100, 1, 2) : 0;
     }
 }

@@ -67,7 +67,7 @@ class User extends Authenticatable
      */
     public function getCart(): CartDTO
     {
-        return new CartDTO($this, $this->cart, $this->getCostCart(), $this->getCountProductsInCart());
+        return new CartDTO($this, $this->cart, $this->getCostCart(true), $this->getCountProductsInCart());
     }
 
     /**
