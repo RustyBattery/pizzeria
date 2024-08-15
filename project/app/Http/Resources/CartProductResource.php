@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $description
  * @property Category $category
  * @property bool $in_stock
- * @property Cart $pivot
+ * @property CartItem $pivot
  * @property int $price
  * @property mixed $images
  */

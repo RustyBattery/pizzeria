@@ -8,27 +8,21 @@ use App\Exceptions\Cart\DuplicateCartProductException;
 use App\Http\Requests\CartChangeCountRequest;
 use App\Http\Resources\CartResource;
 use App\Models\Product;
-use App\Services\CartService;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    private CartService $cartService;
-
-    public function __construct()
-    {
-        $this->cartService = new CartService();
-    }
-
     /**
      * @param Request $request
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
     {
+        /** @var User $user */
         $user = $request->user();
-        return response()->json(CartResource::make($this->cartService->getCart($user)));
+        return response()->json(CartResource::make($user->getCart()));
     }
 
     /**
@@ -39,8 +33,9 @@ class CartController extends Controller
      */
     public function addProduct(Request $request, Product $product): JsonResponse
     {
+        /** @var User $user */
         $user = $request->user();
-        $this->cartService->addProductToCart($user, $product);
+        $user->addProductToCart($product);
         return response()->json(['message' => 'Success']);
     }
 
@@ -51,8 +46,9 @@ class CartController extends Controller
      */
     public function removeProduct(Request $request, Product $product): JsonResponse
     {
+        /** @var User $user */
         $user = $request->user();
-        $this->cartService->removeProductFromCart($user, $product);
+        $user->removeProductFromCart($product);
         return response()->json(['message' => 'Success']);
     }
 
@@ -65,9 +61,10 @@ class CartController extends Controller
      */
     public function changeCount(CartChangeCountRequest $request, Product $product): JsonResponse
     {
+        /** @var User $user */
         $user = $request->user();
         $count = $request->validated()->count;
-        $this->cartService->changeProductCountInCart($user, $product, $count);
+        $user->changeProductCountInCart($product, $count);
         return response()->json(['message' => 'Success']);
     }
 }

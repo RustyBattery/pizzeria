@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $product
  * @property int $count
  */
-class Cart extends Model
+class CartItem extends Model
 {
     use HasFactory;
+
+    protected $table = 'carts';
 
     protected $fillable = [
         'user_id', 'product_id', 'count'
