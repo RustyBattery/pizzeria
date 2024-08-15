@@ -59,12 +59,12 @@ class BaseBuilder extends Builder
                         $matches[2],
                         $filter->values[0],
                         $filter->operator,
-                        GetModelRelations($this->getModel())[$relation_filter->relation] ?? null
+                        getModelRelations($this->getModel())[$relation_filter->relation] ?? null
                     );
                     continue;
                 }
 
-                if (in_array($filter->field, GetModelFields($this->getModel()))) {
+                if (in_array($filter->field, getModelFields($this->getModel()))) {
                     $this->where($filter->field, $filter->operator, $filter->values[0]);
                 }
 
@@ -97,12 +97,12 @@ class BaseBuilder extends Builder
                             $query,
                             $matches[2],
                             $search->value,
-                            GetModelRelations($model)[$matches[1]] ?? null
+                            getModelRelations($model)[$matches[1]] ?? null
                         );
                         continue;
                     }
 
-                    if (in_array($field, GetModelFields($model), true)) {
+                    if (in_array($field, getModelFields($model), true)) {
                         $query->orWhere($field, 'ilike', '%' . $search->value . '%');
                     }
                 }
@@ -126,7 +126,7 @@ class BaseBuilder extends Builder
         }
 
         try {
-            if (in_array($sort->field, GetModelFields($this->getModel()), true)) {
+            if (in_array($sort->field, getModelFields($this->getModel()), true)) {
                 $this->orderBy($sort->field, $sort->order_by);
             }
         } catch (Exception $e) {
@@ -149,11 +149,11 @@ class BaseBuilder extends Builder
             $this->multipleFilterForRelation(
                 $matches[2],
                 $filter->values,
-                GetModelRelations($this->getModel())[$matches[1]] ?? null
+                getModelRelations($this->getModel())[$matches[1]] ?? null
             );
             return;
         }
-        if (in_array($filter->field, GetModelFields($this->getModel()))) {
+        if (in_array($filter->field, getModelFields($this->getModel()))) {
             $this->whereIn($filter->field, $filter->values);
         }
     }
@@ -170,7 +170,7 @@ class BaseBuilder extends Builder
             return;
         }
         $relation_model = new $relation->model;
-        if (in_array($field, GetModelFields($relation_model), true)) {
+        if (in_array($field, getModelFields($relation_model), true)) {
             $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
             $this->whereHas($relation->name, function ($query) use ($field, $values) {
                 $query->whereIn($field, $values);
@@ -191,7 +191,7 @@ class BaseBuilder extends Builder
             return;
         }
         $relation_model = new $relation->model;
-        if (in_array($field, GetModelFields($relation_model), true)) {
+        if (in_array($field, getModelFields($relation_model), true)) {
             $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
             $this->whereHas($relation->name, function ($query) use ($field, $value, $operator) {
                 $query->where($field, $operator, $value);
@@ -213,7 +213,7 @@ class BaseBuilder extends Builder
             return;
         }
         $relation_model = new $relation->model;
-        if (in_array($field, GetModelFields($relation_model), true)) {
+        if (in_array($field, getModelFields($relation_model), true)) {
             $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
             $query->orWhereHas($relation->name, function ($query) use ($field, $value) {
                 $query->where($field, 'ilike', '%' . $value . '%');
