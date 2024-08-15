@@ -2,15 +2,15 @@
 
 namespace App\DTO\Base;
 
-class PaginationDTO
+readonly class PaginationDTO
 {
     /**
      * @param int $per_page
      * @param int $current_page
      */
     public function __construct(
-        public readonly int $per_page,
-        public readonly int $current_page,
+        public int $per_page,
+        public int $current_page,
     )
     {
     }

@@ -2,7 +2,7 @@
 
 namespace App\DTO\Base;
 
-class RelationDTO
+readonly class RelationDTO
 {
     /**
      * @param string $name
@@ -10,9 +10,9 @@ class RelationDTO
      * @param string $model
      */
     public function __construct(
-        public readonly string $name,
-        public readonly string $type,
-        public readonly string $model,
+        public string $name,
+        public string $type,
+        public string $model,
     )
     {
     }
