@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Auth\TokensDTO;
 use App\Enums\TokenAbility;
 use App\Exceptions\Auth\CreateTokenException;
 use App\Exceptions\Auth\InvalidEmailException;
@@ -17,11 +18,11 @@ class AuthService
 {
     /**
      * @param array $data
-     * @return array{access_token: string, refresh_token: string}
+     * @return TokensDTO
      * @throws RegisterException
      * @throws CreateTokenException
      */
-    public function register(array $data): array
+    public function register(array $data): TokensDTO
     {
         try {
             $data['password'] = Hash::make($data['password']);
@@ -36,12 +37,12 @@ class AuthService
     /**
      * @param string $email
      * @param string $password
-     * @return array{access_token: string, refresh_token: string}
+     * @return TokensDTO
      * @throws InvalidPasswordException
      * @throws InvalidEmailException
      * @throws CreateTokenException
      */
-    public function login(string $email, string $password): array
+    public function login(string $email, string $password): TokensDTO
     {
         $user = User::where('email', $email)->first();
         if (!$user) {
@@ -65,10 +66,10 @@ class AuthService
 
     /**
      * @param User $user
-     * @return array{access_token: string, refresh_token: string}
+     * @return TokensDTO
      * @throws CreateTokenException
      */
-    public function refresh(User $user): array
+    public function refresh(User $user): TokensDTO
     {
         $user->tokens()->delete();
         return $this->getTokens($user);
@@ -76,18 +77,18 @@ class AuthService
 
     /**
      * @param User $user
-     * @return array{access_token: string, refresh_token: string}
+     * @return TokensDTO
      * @throws CreateTokenException
      */
-    private function getTokens(User $user): array
+    private function getTokens(User $user): TokensDTO
     {
         try {
             $accessToken = $user->createToken('access_token', [TokenAbility::ACCESS_API->value], Carbon::now()->addMinutes(config('sanctum.ac_expiration')));
             $refreshToken = $user->createToken('refresh_token', [TokenAbility::ISSUE_ACCESS_TOKEN->value], Carbon::now()->addMinutes(config('sanctum.rt_expiration')));
-            return [
-                'access_token' => $accessToken->plainTextToken,
-                'refresh_token' => $refreshToken->plainTextToken
-            ];
+            return TokensDTO::fromArray([
+                'access' => $accessToken->plainTextToken,
+                'refresh' => $refreshToken->plainTextToken
+            ]);
         } catch (Exception $e) {
             Log::error($e->getMessage(), ['exception' => $e]);
             throw new CreateTokenException();
