@@ -64,9 +64,11 @@ class BaseBuilder extends Builder
                     continue;
                 }
 
-                if (in_array($filter->field, getModelFields($this->getModel()))) {
-                    $this->where($filter->field, $filter->operator, $filter->values[0]);
+                if (!in_array($filter->field, getModelFields($this->getModel()))) {
+                    continue;
                 }
+
+                $this->where($filter->field, $filter->operator, $filter->values[0]);
 
             } catch (Exception $e) {
                 Log::error($e->getMessage(), ['exception' => $e]);
@@ -102,9 +104,11 @@ class BaseBuilder extends Builder
                         continue;
                     }
 
-                    if (in_array($field, getModelFields($model), true)) {
-                        $query->orWhere($field, 'ilike', '%' . $search->value . '%');
+                    if (!in_array($field, getModelFields($model), true)) {
+                        continue;
                     }
+
+                    $query->orWhere($field, 'ilike', '%' . $search->value . '%');
                 }
             });
         } catch (Exception $e) {
@@ -126,9 +130,10 @@ class BaseBuilder extends Builder
         }
 
         try {
-            if (in_array($sort->field, getModelFields($this->getModel()), true)) {
-                $this->orderBy($sort->field, $sort->order_by);
+            if (!in_array($sort->field, getModelFields($this->getModel()), true)) {
+                return $this;
             }
+            $this->orderBy($sort->field, $sort->order_by);
         } catch (Exception $e) {
             Log::error($e->getMessage(), ['exception' => $e]);
             return $this;
@@ -153,9 +158,12 @@ class BaseBuilder extends Builder
             );
             return;
         }
-        if (in_array($filter->field, getModelFields($this->getModel()))) {
-            $this->whereIn($filter->field, $filter->values);
+
+        if (!in_array($filter->field, getModelFields($this->getModel()))) {
+            return;
         }
+
+        $this->whereIn($filter->field, $filter->values);
     }
 
     /**
@@ -170,12 +178,13 @@ class BaseBuilder extends Builder
             return;
         }
         $relation_model = new $relation->model;
-        if (in_array($field, getModelFields($relation_model), true)) {
-            $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
-            $this->whereHas($relation->name, function ($query) use ($field, $values) {
-                $query->whereIn($field, $values);
-            });
+        if (!in_array($field, getModelFields($relation_model), true)) {
+            return;
         }
+        $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
+        $this->whereHas($relation->name, function ($query) use ($field, $values) {
+            $query->whereIn($field, $values);
+        });
     }
 
     /**
@@ -191,13 +200,13 @@ class BaseBuilder extends Builder
             return;
         }
         $relation_model = new $relation->model;
-        if (in_array($field, getModelFields($relation_model), true)) {
-            $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
-            $this->whereHas($relation->name, function ($query) use ($field, $value, $operator) {
-                $query->where($field, $operator, $value);
-            });
+        if (!in_array($field, getModelFields($relation_model), true)) {
+            return;
         }
-
+        $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
+        $this->whereHas($relation->name, function ($query) use ($field, $value, $operator) {
+            $query->where($field, $operator, $value);
+        });
     }
 
     /**
@@ -213,12 +222,13 @@ class BaseBuilder extends Builder
             return;
         }
         $relation_model = new $relation->model;
-        if (in_array($field, getModelFields($relation_model), true)) {
-            $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
-            $query->orWhereHas($relation->name, function ($query) use ($field, $value) {
-                $query->where($field, 'ilike', '%' . $value . '%');
-            });
+        if (!in_array($field, getModelFields($relation_model), true)) {
+            return;
         }
+        $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
+        $query->orWhereHas($relation->name, function ($query) use ($field, $value) {
+            $query->where($field, 'ilike', '%' . $value . '%');
+        });
     }
 
 }
