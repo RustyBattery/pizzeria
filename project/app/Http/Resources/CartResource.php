@@ -25,7 +25,7 @@ class CartResource extends JsonResource
     {
         return [
             'products' => CartProductResource::collection($this->products),
-            'cost' => bcdiv($this->cost / 100, 1, 2),
+            'cost' => number_format($this->cost, 2, '.', ''),
             'count_info' => $this->count_info,
         ];
     }

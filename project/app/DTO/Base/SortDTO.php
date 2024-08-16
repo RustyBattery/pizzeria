@@ -2,15 +2,15 @@
 
 namespace App\DTO\Base;
 
-class SortDTO
+readonly class SortDTO
 {
     /**
      * @param string $field
      * @param string $order_by asc|desc
      */
     public function __construct(
-        public readonly string $field,
-        public readonly string $order_by,
+        public string $field,
+        public string $order_by,
     )
     {
     }

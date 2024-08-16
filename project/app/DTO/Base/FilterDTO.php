@@ -2,7 +2,7 @@
 
 namespace App\DTO\Base;
 
-class FilterDTO
+readonly class FilterDTO
 {
     /**
      * @param string $field
@@ -10,9 +10,9 @@ class FilterDTO
      * @param array $values
      */
     public function __construct(
-        public readonly string $field,
-        public readonly string $operator,
-        public readonly array  $values,
+        public string $field,
+        public string $operator,
+        public array  $values,
     )
     {
     }

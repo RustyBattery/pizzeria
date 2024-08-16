@@ -2,15 +2,15 @@
 
 namespace App\DTO\Base;
 
-class SearchDTO
+readonly class SearchDTO
 {
     /**
      * @param array $fields
      * @param string $value
      */
     public function __construct(
-        public readonly array  $fields,
-        public readonly string $value,
+        public array  $fields,
+        public string $value,
     )
     {
     }

@@ -40,4 +40,9 @@ class Product extends BaseModel
     {
         return $this->hasMany(ProductInfo::class);
     }
+
+    public function getPriceInRubles(): string
+    {
+        return bcdiv($this->price / 100, 1, 2);
+    }
 }

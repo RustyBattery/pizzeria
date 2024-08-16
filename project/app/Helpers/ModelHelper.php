@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-if (!function_exists('GetModelRelations')) {
+if (!function_exists('getModelRelations')) {
     /**
      * @param Model $model
      * @return array<RelationDTO>
      */
-    function GetModelRelations(Model $model): array
+    function getModelRelations(Model $model): array
     {
         $modelClass = new ReflectionClass($model);
         $allMethods = $modelClass->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -44,12 +44,12 @@ if (!function_exists('GetModelRelations')) {
     }
 }
 
-if (!function_exists('GetModelFields')) {
+if (!function_exists('getModelFields')) {
     /**
      * @param Model $model
      * @return array<string>
      */
-    function GetModelFields(Model $model): array
+    function getModelFields(Model $model): array
     {
         $fields = $model->getFillable();
         $fields[] = $model->getKeyName();
