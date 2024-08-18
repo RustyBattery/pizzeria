@@ -21,6 +21,7 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @property Collection|Product[] $cart
  * @property Collection|Order[] $orders
+ * @property Collection|UserAddress[] $addresses
  * @property int $id
  * @property string $name
  * @property string $email
