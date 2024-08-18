@@ -3,7 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserAddressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +39,21 @@ Route::prefix('cart')->middleware(['auth:sanctum', 'token.access'])->group(funct
         Route::delete('/', [CartController::class, 'removeProduct']);
         Route::put('/', [CartController::class, 'changeCount']);
     });
+});
+
+Route::prefix('order')->middleware(['auth:sanctum', 'token.access'])->group(function () {
+    Route::get('/', [OrderController::class, 'index']);
+    Route::get('/{order}', [OrderController::class, 'get']);
+    Route::post('/', [OrderController::class, 'create']);
+    Route::delete('/{order}', [OrderController::class, 'cancel']);
+});
+
+Route::prefix('profile')->middleware(['auth:sanctum', 'token.access'])->group(function () {
+    Route::prefix('address')->group(function () {
+        Route::get('/', [UserAddressController::class, 'index']);
+        Route::post('/', [UserAddressController::class, 'create']);
+        Route::put('/{address}', [UserAddressController::class, 'update']);
+        Route::delete('/{address}', [UserAddressController::class, 'delete']);
+    });
+
 });

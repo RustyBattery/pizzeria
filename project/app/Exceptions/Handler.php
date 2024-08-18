@@ -122,5 +122,12 @@ class Handler extends ExceptionHandler
             }
             return parent::render($request, $e);
         });
+
+        $this->renderable(function (ForbiddenException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Forbidden'], ResponseAlias::HTTP_FORBIDDEN);
+            }
+            return parent::render($request, $e);
+        });
     }
 }
