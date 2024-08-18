@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use App\DTO\CartDTO;
+use App\DTO\OrderInfoDTO;
 use App\Exceptions\Cart\CartProductLimitException;
 use App\Exceptions\Cart\CartProductOutStockException;
 use App\Exceptions\Cart\DuplicateCartProductException;
+use App\Http\Controllers\OrderController;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +20,14 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property Collection|Product[] $cart
+ * @property Collection|Order[] $orders
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $phone
+ * @property string $password
+ * @property string $is_admin
+ * @method static where(string $string, false $false)
  */
 class User extends Authenticatable
 {
@@ -185,4 +196,34 @@ class User extends Authenticatable
         return $in_rubles ? bcdiv($cost / 100, 1, 2) : $cost;
     }
 
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->with(['products', 'address']);
+    }
+
+    /**
+     * @param OrderInfoDTO $order_info
+     * @return void
+     */
+    public function createOrder(OrderInfoDTO $order_info): void
+    {
+        /** @var Order $order */
+        $order = $this->orders()->create([
+            'address_id' => $order_info->address_id,
+            'phone' => $order_info->phone,
+            'cost' => $this->getCostCart(),
+            'email' => $order_info->email,
+            'delivery_time' => $order_info->delivery_time,
+        ]);
+        $products = $this->cart()->where('in_stock', true)->get();
+        foreach ($products as $product) {
+            $order->products()->attach($product->id, ['price' => $product->price, 'count' => $product->pivot->count]);
+            $this->cart()->detach($product->id);
+        }
+    }
 }
