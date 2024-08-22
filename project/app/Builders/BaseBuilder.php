@@ -59,7 +59,7 @@ class BaseBuilder extends Builder
                         $matches[2],
                         $filter->values[0],
                         $filter->operator,
-                        getModelRelations($this->getModel())[$relation_filter->relation] ?? null
+                        getModelRelations($this->getModel())[$matches[1]] ?? null
                     );
                     continue;
                 }
@@ -177,8 +177,8 @@ class BaseBuilder extends Builder
         if (!$relation) {
             return;
         }
-        $relation_model = new $relation->model;
-        if (!in_array($field, getModelFields($relation_model), true)) {
+        $relationModel = new $relation->model;
+        if (!in_array($field, getModelFields($relationModel), true)) {
             return;
         }
         $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
@@ -199,8 +199,8 @@ class BaseBuilder extends Builder
         if (!$relation) {
             return;
         }
-        $relation_model = new $relation->model;
-        if (!in_array($field, getModelFields($relation_model), true)) {
+        $relationModel = new $relation->model;
+        if (!in_array($field, getModelFields($relationModel), true)) {
             return;
         }
         $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
@@ -221,8 +221,8 @@ class BaseBuilder extends Builder
         if (!$relation) {
             return;
         }
-        $relation_model = new $relation->model;
-        if (!in_array($field, getModelFields($relation_model), true)) {
+        $relationModel = new $relation->model;
+        if (!in_array($field, getModelFields($relationModel), true)) {
             return;
         }
         $field = $relation->type === 'belongsToMany' ? $relation->name . '.' . $field : $field;
