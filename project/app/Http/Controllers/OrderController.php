@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Cart\CartEmptyException;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
@@ -38,6 +39,7 @@ class OrderController extends Controller
     /**
      * @param OrderCreateRequest $request
      * @return JsonResponse
+     * @throws CartEmptyException
      */
     public function create(OrderCreateRequest $request): JsonResponse
     {
