@@ -6,6 +6,7 @@ use App\Exceptions\Auth\CreateTokenException;
 use App\Exceptions\Auth\InvalidEmailException;
 use App\Exceptions\Auth\InvalidPasswordException;
 use App\Exceptions\Auth\RegisterException;
+use App\Exceptions\Cart\CartEmptyException;
 use App\Exceptions\Cart\CartProductLimitException;
 use App\Exceptions\Cart\CartProductOutStockException;
 use App\Exceptions\Cart\DuplicateCartProductException;
@@ -126,6 +127,13 @@ class Handler extends ExceptionHandler
         $this->renderable(function (ForbiddenException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json(['message' => 'Forbidden'], ResponseAlias::HTTP_FORBIDDEN);
+            }
+            return parent::render($request, $e);
+        });
+
+        $this->renderable(function (CartEmptyException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Cart is empty'], ResponseAlias::HTTP_BAD_REQUEST);
             }
             return parent::render($request, $e);
         });
