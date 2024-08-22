@@ -27,12 +27,12 @@ class CartSeeder extends Seeder
         })->pluck('id');
 
         foreach ($users as $user) {
-            $user_pizzas = $pizzas->random(random_int(3, 5));
-            $user_drinks = $drinks->random(random_int(3, 5));
-            foreach ($user_pizzas as $pizza) {
+            $userPizzas = $pizzas->random(random_int(3, 5));
+            $userDrinks = $drinks->random(random_int(3, 5));
+            foreach ($userPizzas as $pizza) {
                 $user->cart()->attach($pizza, ['count' => random_int(1, 2)]);
             }
-            foreach ($user_drinks as $drink) {
+            foreach ($userDrinks as $drink) {
                 $user->cart()->attach($drink, ['count' => random_int(2, 4)]);
             }
         }

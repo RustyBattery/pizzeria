@@ -18,9 +18,12 @@ class OrderCreateRequest extends FormRequest
         ];
     }
 
-    public function validated($key = null, $default = null): OrderInfoDTO
+    /**
+     * @return OrderInfoDTO
+     */
+    public function validatedAsDto(): OrderInfoDTO
     {
-        $data = parent::validated();
+        $data = $this->validated();
         /** @var User $user */
         $user = $this->user();
         return new OrderInfoDTO(

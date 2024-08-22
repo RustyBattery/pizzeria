@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 class AuthService
 {
     /**
-     * @param array $data
+     * @param array{name:string, email:string, phone:string, password:string} $data
      * @return TokensDTO
      * @throws RegisterException
      * @throws CreateTokenException

@@ -97,8 +97,8 @@ class User extends Authenticatable
         if (!$product->in_stock) {
             throw new CartProductOutStockException();
         }
-        $count_info = $this->getCountProductsInCart($product->category);
-        if ($count_info->category->limit - $count_info->in_stock < 1) {
+        $countInfo = $this->getCountProductsInCart($product->category);
+        if ($countInfo->category->limit - $countInfo->in_stock < 1) {
             throw new CartProductLimitException();
         }
         $this->cart()->attach($product->id);
@@ -126,11 +126,11 @@ class User extends Authenticatable
             throw new CartProductOutStockException();
         }
 
-        $info_cart_count = $this->getCountProductsInCart($product->category);
+        $infoCartCount = $this->getCountProductsInCart($product->category);
 
-        $cur_count = $this->cart()->find($product->id)?->pivot->count ?? 0;
-        $max_count = $info_cart_count->category->limit - ($info_cart_count->in_stock - $cur_count);
-        if ($count > $max_count) {
+        $curCount = $this->cart()->find($product->id)?->pivot->count ?? 0;
+        $maxCount = $infoCartCount->category->limit - ($infoCartCount->in_stock - $curCount);
+        if ($count > $maxCount) {
             throw new CartProductLimitException();
         }
         $this->cart()->syncWithoutDetaching([$product->id => ['count' => $count]]);
@@ -144,7 +144,7 @@ class User extends Authenticatable
     {
         if ($category) {
             $cart = $this->cart()->where('category_id', $category->id)->get();
-            [$products_in_stock, $products_out_stock] = $cart->partition(function (Product $product) {
+            [$productsInStock, $productsOutStock] = $cart->partition(function (Product $product) {
                 return $product->in_stock;
             });
             return (object)[
@@ -153,15 +153,15 @@ class User extends Authenticatable
                     'name' => $category->name,
                     'limit' => $category->limit,
                 ],
-                'in_stock' => $products_in_stock->sum('pivot.count'),
-                'out_stock' => $products_out_stock->sum('pivot.count'),
-                'total' => $products_in_stock->sum('pivot.count') + $products_out_stock->sum('pivot.count')
+                'in_stock' => $productsInStock->sum('pivot.count'),
+                'out_stock' => $productsOutStock->sum('pivot.count'),
+                'total' => $productsInStock->sum('pivot.count') + $productsOutStock->sum('pivot.count')
             ];
         }
         $result = [];
-        $cart_groups = $this->cart->groupBy('category');
-        foreach ($cart_groups as $key => $cart_group) {
-            [$products_in_stock, $products_out_stock] = $cart_group->partition(function (Product $product) {
+        $cartGroups = $this->cart->groupBy('category');
+        foreach ($cartGroups as $key => $cartGroup) {
+            [$productsInStock, $productsOutStock] = $cartGroup->partition(function (Product $product) {
                 return $product->in_stock;
             });
             try {
@@ -176,25 +176,25 @@ class User extends Authenticatable
                     'name' => $category->name,
                     'limit' => $category->limit,
                 ],
-                'in_stock' => $products_in_stock->sum('pivot.count'),
-                'out_stock' => $products_out_stock->sum('pivot.count'),
-                'total' => $products_in_stock->sum('pivot.count') + $products_out_stock->sum('pivot.count')
+                'in_stock' => $productsInStock->sum('pivot.count'),
+                'out_stock' => $productsOutStock->sum('pivot.count'),
+                'total' => $productsInStock->sum('pivot.count') + $productsOutStock->sum('pivot.count')
             ];
         }
         return $result;
     }
 
     /**
-     * @param bool $in_rubles
+     * @param bool $inRubles
      * @return float|int
      */
-    private function getCostCart(bool $in_rubles = false): float|int
+    private function getCostCart(bool $inRubles = false): float|int
     {
         $cart = $this->cart()->where('in_stock', true)->get();
         $cost = $cart->map(function ($product) {
             return $product->price * $product->pivot->count;
         })->sum();
-        return $in_rubles ? bcdiv($cost / 100, 1, 2) : $cost;
+        return $inRubles ? bcdiv($cost / 100, 1, 2) : $cost;
     }
 
     public function addresses(): HasMany
@@ -208,18 +208,18 @@ class User extends Authenticatable
     }
 
     /**
-     * @param OrderInfoDTO $order_info
+     * @param OrderInfoDTO $orderInfo
      * @return void
      */
-    public function createOrder(OrderInfoDTO $order_info): void
+    public function createOrder(OrderInfoDTO $orderInfo): void
     {
         /** @var Order $order */
         $order = $this->orders()->create([
-            'address_id' => $order_info->address_id,
-            'phone' => $order_info->phone,
+            'address_id' => $orderInfo->address_id,
+            'phone' => $orderInfo->phone,
             'cost' => $this->getCostCart(),
-            'email' => $order_info->email,
-            'delivery_time' => $order_info->delivery_time,
+            'email' => $orderInfo->email,
+            'delivery_time' => $orderInfo->delivery_time,
         ]);
         $products = $this->cart()->where('in_stock', true)->get();
         foreach ($products as $product) {

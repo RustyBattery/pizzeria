@@ -5,6 +5,11 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
+/**
+ * @method array validated($key = null, $default = null)
+ * @return array{email: string, password: string}
+ */
 class LoginRequest extends FormRequest
 {
     public function rules(): array
@@ -16,12 +21,10 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * @param $key
-     * @param $default
-     * @return array{email: string, password: string}
+     * @return object{email: string, password: string}
      */
-    public function validated($key = null, $default = null): array
+    public function validatedAsObject(): object
     {
-        return parent::validated();
+        return (object)$this->validated();
     }
 }

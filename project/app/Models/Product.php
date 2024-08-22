@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\DTO\Base\FilterDTO;
+use App\DTO\Base\PaginationDTO;
+use App\DTO\Base\SearchDTO;
+use App\DTO\Base\SortDTO;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Category $category
  * @property Image[] $images
  * @property ProductInfo[] $infos
+ * @method static getAdvanced(FilterDTO[] $filters, SearchDTO|null $search, SortDTO|null $sort, PaginationDTO|null $pagination)
  */
 class Product extends BaseModel
 {

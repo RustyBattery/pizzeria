@@ -10,10 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BaseRequest extends FormRequest
 {
-
-    /**
-     * @return string[]
-     */
     public function rules(): array
     {
         return [
@@ -35,20 +31,18 @@ class BaseRequest extends FormRequest
     }
 
     /**
-     * @param $key
-     * @param $default
-     * @return array{filters: array<FilterDTO>, search: SearchDTO|null, sort: SortDTO|null, pagination: PaginationDTO|null}
+     * @return object{filters: array<FilterDTO>, search: SearchDTO|null, sort: SortDTO|null, pagination: PaginationDTO|null}
      */
-    public function validated($key = null, $default = null): array
+    public function validatedAsObject(): object
     {
-        $data = parent::validated();
+        $data = $this->validated();
 
         $filters = [];
         foreach ($data['filters'] ?? [] as $filter) {
             $filters[] = FilterDTO::fromArray($filter);
         }
 
-        return [
+        return (object)[
             'filters' => $filters,
             'search' => isset($data['search']) ? SearchDTO::fromArray($data['search']) : null,
             'sort' => isset($data['sort']) ? SortDTO::fromArray($data['sort']) : null,
