@@ -16,8 +16,8 @@ class ProductController extends Controller
      */
     public function index(BaseRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $products = Product::query()->getAdvanced($data['filters'], $data['search'], $data['sort'], $data['pagination']);
+        $data = $request->validatedAsObject();
+        $products = Product::getAdvanced($data->filters, $data->search, $data->sort, $data->pagination);
         return response()->json(new ProductCollection($products));
     }
 

@@ -63,7 +63,7 @@ class CartController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $count = $request->validated()->count;
+        $count = $request->validatedAsObject()->count;
         $user->changeProductCountInCart($product, $count);
         return response()->json(['message' => 'Success']);
     }

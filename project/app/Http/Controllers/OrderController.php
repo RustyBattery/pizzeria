@@ -48,7 +48,7 @@ class OrderController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $user->createOrder($request->validated());
+        $user->createOrder($request->validatedAsDto());
         return response()->json(['message' => 'Success']);
     }
 

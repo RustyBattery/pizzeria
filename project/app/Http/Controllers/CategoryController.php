@@ -16,8 +16,8 @@ class CategoryController extends Controller
      */
     public function index(BaseRequest $request): JsonResponse
     {
-        $data = $request->validated();
-        $categories = Category::query()->getAdvanced($data['filters'], $data['search'], $data['sort'], $data['pagination']);
+        $data = $request->validatedAsObject();
+        $categories = Category::getAdvanced($data->filters, $data->search, $data->sort, $data->pagination);
         return response()->json(new CategoryCollection($categories));
     }
 }

@@ -4,9 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @method
- */
 class CartChangeCountRequest extends FormRequest
 {
     public function rules(): array
@@ -17,14 +14,10 @@ class CartChangeCountRequest extends FormRequest
     }
 
     /**
-     * @param $key
-     * @param $default
      * @return object{count: int}
      */
-    public function validated($key = null, $default = null): object
+    public function validatedAsObject(): object
     {
-        return (object)[
-            'count' => parent::validated()['count'],
-        ];
+        return (object)$this->validated();
     }
 }
