@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ForbiddenException;
 use App\Http\Requests\UserAddressRequest;
 use App\Http\Resources\UserAddressResource;
 use App\Models\User;
 use App\Models\UserAddress;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -39,32 +39,23 @@ class UserAddressController extends Controller
      * @param UserAddressRequest $request
      * @param UserAddress $address
      * @return JsonResponse
-     * @throws ForbiddenException
+     * @throws AuthorizationException
      */
     public function update(UserAddressRequest $request, UserAddress $address): JsonResponse
     {
-        /** @var User $user */
-        $user = $request->user();
-        if ($address->user_id !== $user->id) {
-            throw new ForbiddenException();
-        }
+        $this->authorize('update', $address);
         $address->update($request->validated());
         return response()->json(['message' => 'Success']);
     }
 
     /**
-     * @param Request $request
      * @param UserAddress $address
      * @return JsonResponse
-     * @throws ForbiddenException
+     * @throws AuthorizationException
      */
-    public function delete(Request $request, UserAddress $address): JsonResponse
+    public function delete(UserAddress $address): JsonResponse
     {
-        /** @var User $user */
-        $user = $request->user();
-        if ($address->user_id !== $user->id) {
-            throw new ForbiddenException();
-        }
+        $this->authorize('delete', $address);
         $address->delete();
         return response()->json(['message' => 'Success']);
     }

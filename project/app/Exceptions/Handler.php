@@ -14,6 +14,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -124,7 +125,7 @@ class Handler extends ExceptionHandler
             return parent::render($request, $e);
         });
 
-        $this->renderable(function (ForbiddenException $e, Request $request) {
+        $this->renderable(function (AccessDeniedHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json(['message' => 'Forbidden'], ResponseAlias::HTTP_FORBIDDEN);
             }
