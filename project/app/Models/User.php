@@ -219,14 +219,14 @@ class User extends Authenticatable
         if (!$this->cart()->where('in_stock', true)->count()) {
             throw new CartEmptyException();
         }
-        DB::transaction(function () use ($order_info) {
+        DB::transaction(function () use ($orderInfo) {
             /** @var Order $order */
             $order = $this->orders()->create([
-                'address_id' => $order_info->address_id,
-                'phone' => $order_info->phone,
+                'address_id' => $orderInfo->address_id,
+                'phone' => $orderInfo->phone,
                 'cost' => $this->getCostCart(),
-                'email' => $order_info->email,
-                'delivery_time' => $order_info->delivery_time,
+                'email' => $orderInfo->email,
+                'delivery_time' => $orderInfo->delivery_time,
             ]);
             $products = $this->cart()->where('in_stock', true)->get();
             foreach ($products as $product) {
